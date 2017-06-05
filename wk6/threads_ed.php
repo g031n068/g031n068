@@ -31,7 +31,7 @@
           //パスワードの認証を行う
           $thid = htmlspecialchars($_POST['thid']);
           $pass = htmlspecialchars($_POST['pass']);
-          $query = "SELECT password FROM threads WHERE thread_id = "
+          $query = "SELECT password FROM threads WHERE id = "
                   . "'" . mysqli_real_escape_string( $mysqli, $thid ) ."'";
           $dbbs_pw = $mysqli->query($query)->fetch_row();
           if (strcmp($dbbs_pw[0], $pass) !== 0) {
@@ -43,11 +43,11 @@
           }
         }
 
-        if (isset($_POST['del'])) {    //削除時
+        if (isset($_POST['delete'])) {    //削除時
           $thid = htmlspecialchars($_POST['thid']);
-          $delth = $mysqli->query("DELETE FROM threads WHERE thread_id = "
+          $delth = $mysqli->query("DELETE FROM threads WHERE id = "
                 . "'" . mysqli_real_escape_string( $mysqli, $thid ) ."'");
-          $delms = $mysqli->query("DELETE FROM messages WHERE thread_num = "
+          $delms = $mysqli->query("DELETE FROM messages WHERE thread_id = "
                 . "'" . mysqli_real_escape_string( $mysqli, $thid ) ."'");
           if (!$delth && !$delms) {   //エラーの表示
             printf("Query failed: %s\n", $mysqli->error);
@@ -61,13 +61,13 @@
           }
         }
 
-        if (isset($_POST['upd'])) {   //更新時
+        if (isset($_POST['update'])) {   //更新時
           if($_POST['thname'] !== ''){
             $thname = htmlspecialchars($_POST['thname']);
             $thid = htmlspecialchars($_POST['thid']);
             $upd = $mysqli->query("UPDATE threads SET `thread_name`="
             . "'" . mysqli_real_escape_string( $mysqli, $thname ) ."'"
-            . " WHERE thread_id = "
+            . " WHERE id = "
             . "'" . mysqli_real_escape_string( $mysqli, $thid ) ."'");
             if (!$upd) {   //エラーを表示する
               printf("Query failed: %s\n", $mysqli->error);
@@ -96,8 +96,8 @@
     <form method="post" action="">
         スレッド名</br><textarea name="thname" rows="4" cols="50" placeholder="body"><?php echo htmlspecialchars($_POST['thname'])?></textarea>
         <input type="hidden" name="thid" value="<?php echo htmlspecialchars($_POST['thid'])?>" />
-        <input type="submit" name="upd" value="更新" />
-        <input type="submit" name="del" value="削除">
+        <input type="submit" name="update" value="更新" />
+        <input type="submit" name="delete" value="削除">
     </form></br>
     &lt;&lt;<a href="threads.php">スレッド一覧へ</a>
   </article>

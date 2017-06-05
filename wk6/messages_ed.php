@@ -43,7 +43,7 @@
           }
         }
 
-        if (isset($_POST['del'])) {    //削除時
+        if (isset($_POST['delete'])) {    //削除時
           $id = htmlspecialchars($_POST['id']);
           $del = $mysqli->query("DELETE FROM messages WHERE message_id = "
                 . "'" . mysqli_real_escape_string( $mysqli, $id ) ."'");
@@ -53,12 +53,12 @@
           } else {    //削除後、messages.phpへ
             $id = htmlspecialchars($_POST['thnum']);
             $n = htmlspecialchars($_POST['thname']);
-            header("location: messages.php?id=$id&n=$n");
+            header("location: messages.php?id=$id");
             exit();
           }
         }
 
-        if (isset($_POST['upd'])) {   //更新時
+        if (isset($_POST['update'])) {   //更新時
           if($_POST['body'] !== ''){
             $id = htmlspecialchars($_POST['id']);
             $body = htmlspecialchars($_POST['body']);
@@ -74,7 +74,7 @@
             } else {   //更新後、messages.phpへ
               $id = htmlspecialchars($_POST['thnum']);
               $n = htmlspecialchars($_POST['thname']);
-              header("location: messages.php?id=$id&n=$n");
+              header("location: messages.php?id=$id");
             }
           } else {
             $err_msg = 'コメントを入力してください';
@@ -96,10 +96,10 @@
         <input type="hidden" name="id" value="<?php echo htmlspecialchars($_POST['id'])?>" />
         <input type="hidden" name="thnum" value="<?php echo htmlspecialchars($_POST['thnum'])?>" />
         <input type="hidden" name="thname" value="<?php echo htmlspecialchars($_POST['thname'])?>" />
-        <input type="submit" name="upd" value="更新" />
-        <input type="submit" name="del" value="削除">
+        <input type="submit" name="update" value="更新" />
+        <input type="submit" name="delete" value="削除">
     </form></br>
-    &lt;&lt;<a href="messages.php?id=<?php echo htmlspecialchars($_POST['thnum'])?>&n=<?php echo htmlspecialchars($_POST['thname'])?>">スレッド一覧へ</a>
+    &lt;&lt;<a href="javascript:history.back();">スレッド一覧へ</a>
   </article>
 </body>
 </html>

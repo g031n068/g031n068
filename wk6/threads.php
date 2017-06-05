@@ -54,7 +54,7 @@
         }
 
         //SELECT文の設定
-        $query  = "SELECT * FROM threads ORDER BY thread_id DESC";
+        $query  = "SELECT * FROM threads ORDER BY id DESC";
         $res    = mysqli_query( $link,$query );
 
     } else {
@@ -84,16 +84,22 @@
     <!--データベースのデータを表示-->
     <?php foreach( $res as $row ): ?>
               <tr><td width="100" align="center">
-                <a href="messages.php?id=<?php echo htmlspecialchars($row['thread_id'])?>&n=<?php echo htmlspecialchars($row['thread_name'])?>">
-                  <?php echo htmlspecialchars($row['thread_name'])?></a></td>
+                    <form action="messages.php?id=<?php echo htmlspecialchars($row['id'])?>" method="post">
+                      <input type="hidden" name="id" value="<?php echo htmlspecialchars($row['id'])?>">
+                      <input type="hidden" name="name" value="<?php echo htmlspecialchars($row['thread_name'])?>">
+                      <input type="submit" name="" value="<?php echo htmlspecialchars($row['thread_name'])?>"
+                             style="font-size:18px; border-style:none; background-color:white;cursor:pointer;"
+                      >
+                  </td></form>
                   <td width="200" align="center"><?php echo htmlspecialchars($row['th_timestamp'])?></td>
                   <td>
+                      <!-- 編集用フォーム -->
                       <form action="threads_ed.php" method="post">
-                      <input type="password" name="pass" value="" placeholder="password">
-                      <input type="hidden" name="thid" value="<?php echo htmlspecialchars($row['thread_id'])?>">
-                      <input type="hidden" name="thname" value="<?php echo htmlspecialchars($row['thread_name'])?>">
-                      <input type="submit" name="edit" value="編集">
-                    </form>
+                        <input type="password" name="pass" value="" placeholder="password">
+                        <input type="hidden" name="thid" value="<?php echo htmlspecialchars($row['id'])?>">
+                        <input type="hidden" name="thname" value="<?php echo htmlspecialchars($row['thread_name'])?>">
+                        <input type="submit" name="edit" value="編集">
+                      </form>
                   </td>
               </tr>
     <?php endforeach; ?>
